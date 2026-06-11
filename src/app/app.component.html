@@ -15,7 +15,7 @@
     </nav>
 
     <div class="appbar__account">
-      <a class="appbar__cart" routerLink="/shop" aria-label="Cart">
+      <a class="appbar__cart" routerLink="/shop/checkout/step/1" aria-label="Cart">
         🛒
         @if (cart.count() > 0) {
           <span class="appbar__cart-count">{{ cart.count() }}</span>

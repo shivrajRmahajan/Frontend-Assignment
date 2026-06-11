@@ -1,0 +1,55 @@
+{
+  "fields": [
+    {
+      "name": "fullName",
+      "label": "Full name",
+      "type": "text",
+      "placeholder": "Jane Doe",
+      "validators": [{ "type": "required" }, { "type": "minLength", "value": 2 }]
+    },
+    {
+      "name": "email",
+      "label": "Email",
+      "type": "text",
+      "placeholder": "you@example.com",
+      "validators": [{ "type": "required" }, { "type": "email" }]
+    },
+    {
+      "name": "phone",
+      "label": "Phone",
+      "type": "text",
+      "placeholder": "10-digit number",
+      "validators": [{ "type": "required" }, { "type": "pattern", "value": "^[0-9]{10}$" }]
+    },
+    {
+      "name": "address",
+      "label": "Address",
+      "type": "textarea",
+      "validators": [{ "type": "required" }]
+    },
+    {
+      "name": "city",
+      "label": "City",
+      "type": "text",
+      "validators": [{ "type": "required" }]
+    },
+    {
+      "name": "country",
+      "label": "Country",
+      "type": "select",
+      "options": [
+        { "value": "IN", "label": "India" },
+        { "value": "US", "label": "United States" },
+        { "value": "Other", "label": "Other" }
+      ],
+      "validators": [{ "type": "required" }]
+    },
+    {
+      "name": "otherCountry",
+      "label": "Specify country",
+      "type": "text",
+      "validators": [{ "type": "required" }],
+      "visibleWhen": { "field": "country", "equals": "Other" }
+    }
+  ]
+}
