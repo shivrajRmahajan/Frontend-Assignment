@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  background-color: var(--fa-skeleton-base);
+  background-image: linear-gradient(
+    90deg,
+    var(--fa-skeleton-base) 0,
+    var(--fa-skeleton-shine) 40px,
+    var(--fa-skeleton-base) 80px
+  );
+  background-size: 600px 100%;
+  background-repeat: no-repeat;
+  animation: fa-skeleton-shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes fa-skeleton-shimmer {
+  0% {
+    background-position: -120px 0;
+  }
+  100% {
+    background-position: 340px 0;
+  }
+}
+
+/* Respect users who prefer no motion. */
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}
