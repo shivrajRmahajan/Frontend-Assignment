@@ -1,0 +1,113 @@
+<header class="page__head">
+  <div>
+    <h1 class="page__title">Orders</h1>
+    <p class="page__sub">Filter, sort and open an order to view line items and update its status.</p>
+  </div>
+</header>
+
+<div class="toolbar">
+  <label class="toolbar__group">
+    <span class="toolbar__label">Status</span>
+    <select [value]="store.status()" (change)="onStatusFilter($event)" aria-label="Filter by status">
+      <option value="all">All</option>
+      @for (s of statuses; track s) {
+        <option [value]="s">{{ s }}</option>
+      }
+    </select>
+  </label>
+
+  <label class="toolbar__group">
+    <span class="toolbar__label">From</span>
+    <input type="date" [value]="store.from()" (change)="onFrom($event)" aria-label="From date" />
+  </label>
+
+  <label class="toolbar__group">
+    <span class="toolbar__label">To</span>
+    <input type="date" [value]="store.to()" (change)="onTo($event)" aria-label="To date" />
+  </label>
+</div>
+
+<div class="card">
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>
+          <button type="button" class="grid__sort" (click)="store.toggleSort('id')">
+            Order <span class="grid__ind">{{ sortIndicator('id') }}</span>
+          </button>
+        </th>
+        <th>
+          <button type="button" class="grid__sort" (click)="store.toggleSort('customerName')">
+            Customer <span class="grid__ind">{{ sortIndicator('customerName') }}</span>
+          </button>
+        </th>
+        <th>Products</th>
+        <th class="grid__num">
+          <button type="button" class="grid__sort" (click)="store.toggleSort('total')">
+            Total <span class="grid__ind">{{ sortIndicator('total') }}</span>
+          </button>
+        </th>
+        <th>
+          <button type="button" class="grid__sort" (click)="store.toggleSort('status')">
+            Status <span class="grid__ind">{{ sortIndicator('status') }}</span>
+          </button>
+        </th>
+        <th>
+          <button type="button" class="grid__sort" (click)="store.toggleSort('date')">
+            Date <span class="grid__ind">{{ sortIndicator('date') }}</span>
+          </button>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @if (store.paged().length === 0) {
+        <tr>
+          <td colspan="6" class="grid__state">No orders match your filters.</td>
+        </tr>
+      } @else {
+        @for (order of store.paged(); track order.id) {
+          <tr
+            class="grid__row"
+            [class.is-selected]="selectedId() === order.id"
+            (click)="open(order)"
+            tabindex="0"
+            (keydown.enter)="open(order)"
+          >
+            <td class="grid__id">{{ order.id }}</td>
+            <td>{{ order.customerName }}</td>
+            <td class="grid__products">{{ itemsSummary(order) }}</td>
+            <td class="grid__num">{{ money(total(order)) }}</td>
+            <td>
+              <span class="badge-status badge-status--{{ order.status }}">{{ order.status }}</span>
+            </td>
+            <td class="grid__date">{{ order.date }}</td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+<footer class="pager">
+  <span class="pager__info">
+    Page {{ store.page() }} of {{ store.pageCount() }} · {{ store.total() }} orders
+  </span>
+  <div class="pager__btns">
+    <button type="button" class="btn btn--ghost" (click)="store.prevPage()" [disabled]="store.page() <= 1">
+      Prev
+    </button>
+    <button
+      type="button"
+      class="btn btn--ghost"
+      (click)="store.nextPage()"
+      [disabled]="store.page() >= store.pageCount()"
+    >
+      Next
+    </button>
+  </div>
+</footer>
+
+@if (selectedId(); as id) {
+  <app-order-detail-panel [orderId]="id" (close)="closePanel()" />
+}
