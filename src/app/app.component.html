@@ -1,0 +1,29 @@
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="appbar">
+  <a class="appbar__brand" routerLink="/">
+    <span class="appbar__mark" aria-hidden="true">◆</span>
+    Storefront<strong>RBAC</strong>
+  </a>
+
+  @if (auth.isAuthenticated()) {
+    <nav class="appbar__nav" aria-label="Primary">
+      @if (auth.isAdmin()) {
+        <a routerLink="/admin" routerLinkActive="is-active">Admin</a>
+      }
+      <a routerLink="/shop" routerLinkActive="is-active">Shop</a>
+    </nav>
+
+    <div class="appbar__account">
+      <span class="appbar__user">
+        <span class="appbar__name">{{ auth.currentUser()?.name }}</span>
+        <span class="badge badge--{{ auth.role() }}">{{ auth.role() }}</span>
+      </span>
+      <button type="button" class="btn btn--ghost" (click)="auth.logout()">Log out</button>
+    </div>
+  }
+</header>
+
+<main id="main-content" class="app-main">
+  <router-outlet />
+</main>

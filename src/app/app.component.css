@@ -1,0 +1,93 @@
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  background: var(--fa-primary);
+  color: #fff;
+  border-radius: 0 0 var(--fa-radius) 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+.appbar {
+  height: var(--fa-appbar-h);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.25rem;
+  background: var(--fa-surface);
+  border-bottom: 1px solid var(--fa-border);
+}
+
+.appbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--fa-text);
+  text-decoration: none;
+}
+.appbar__brand strong {
+  color: var(--fa-primary);
+  font-weight: 700;
+}
+.appbar__mark {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 0.72rem;
+  background: linear-gradient(135deg, var(--fa-primary), var(--fa-primary-600));
+}
+
+.appbar__nav {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: 1rem;
+}
+.appbar__nav a {
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--fa-radius);
+  color: var(--fa-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.appbar__nav a:hover {
+  color: var(--fa-text);
+  background: var(--fa-muted-bg);
+}
+.appbar__nav a.is-active {
+  color: var(--fa-primary);
+  background: var(--fa-primary-bg);
+}
+
+.appbar__account {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.appbar__user {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.app-main {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem;
+}
+
+@media (max-width: 540px) {
+  .appbar__name {
+    display: none;
+  }
+}
