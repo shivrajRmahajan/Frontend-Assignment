@@ -1,0 +1,141 @@
+.back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--fa-muted);
+  text-decoration: none;
+}
+.back:hover {
+  color: var(--fa-primary);
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 2rem;
+  align-items: start;
+}
+.detail__media {
+  aspect-ratio: 1 / 1;
+  background: var(--fa-surface);
+  border: 1px solid var(--fa-border);
+  border-radius: calc(var(--fa-radius) + 4px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.detail__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1.5rem;
+}
+.detail__cat {
+  font-size: 0.78rem;
+  text-transform: capitalize;
+  color: var(--fa-muted);
+}
+.detail__title {
+  margin: 0.3rem 0 0.6rem;
+  font-size: 1.7rem;
+  line-height: 1.2;
+}
+.detail__meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--fa-muted);
+}
+.detail__rating {
+  color: #b45309;
+}
+.detail__price {
+  margin: 0 0 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--fa-primary);
+}
+.detail__desc {
+  margin: 0 0 1.25rem;
+  color: var(--fa-text);
+  line-height: 1.6;
+}
+.detail__stock {
+  margin: 0 0 1.25rem;
+  font-size: 0.9rem;
+}
+.detail__stock--in {
+  color: var(--fa-user-fg);
+  font-weight: 600;
+}
+.detail__stock--out {
+  color: var(--fa-danger);
+  font-weight: 600;
+}
+
+.buy {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--fa-border);
+  border-radius: var(--fa-radius);
+  overflow: hidden;
+}
+.stepper button {
+  width: 2.4rem;
+  height: 2.6rem;
+  border: 0;
+  background: var(--fa-surface);
+  color: var(--fa-text);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.stepper button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.stepper button:hover:not(:disabled) {
+  background: var(--fa-muted-bg);
+}
+.stepper__val {
+  min-width: 2.4rem;
+  text-align: center;
+  font-weight: 600;
+}
+.buy__add {
+  height: 2.6rem;
+  padding: 0 1.5rem;
+}
+.buy__notify {
+  height: 2.6rem;
+  padding: 0 1.5rem;
+}
+.buy__hint {
+  font-size: 0.82rem;
+  color: var(--fa-muted);
+}
+
+.related {
+  margin-top: 3rem;
+}
+.related__title {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+.related__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .detail {
+    grid-template-columns: 1fr;
+  }
+}

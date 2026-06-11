@@ -92,6 +92,13 @@ export class ProductService {
     return this.http.get<Product>(`${BASE}/products/${id}`, { params: { select: SELECT } });
   }
 
+  /** A handful of products in a category — backs the "related products" section. */
+  byCategory(slug: string, limit = 5): Observable<Product[]> {
+    return this.http
+      .get<RawList>(`${BASE}/products/category/${slug}`, { params: { limit, select: SELECT } })
+      .pipe(map((raw) => raw.products ?? []));
+  }
+
   /** Category list for the filter dropdown and the add/edit form. */
   categories(): Observable<ProductCategory[]> {
     return this.http.get<unknown[]>(`${BASE}/products/categories`).pipe(

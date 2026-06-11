@@ -1,0 +1,71 @@
+<a class="back" routerLink="/shop">← Back to catalogue</a>
+
+<article class="detail">
+  <div class="detail__media">
+    @if (product().thumbnail) {
+      <img [src]="product().thumbnail" [alt]="product().title" />
+    }
+  </div>
+
+  <div class="detail__info">
+    <span class="detail__cat">{{ product().category }}</span>
+    <h1 class="detail__title">{{ product().title }}</h1>
+
+    <div class="detail__meta">
+      @if (product().brand) {
+        <span class="detail__brand">{{ product().brand }}</span>
+      }
+      @if (product().rating != null) {
+        <span class="detail__rating">★ {{ product().rating }}</span>
+      }
+    </div>
+
+    <p class="detail__price">{{ '$' + product().price }}</p>
+
+    <p class="detail__desc">{{ product().description }}</p>
+
+    <p class="detail__stock">
+      @if (outOfStock()) {
+        <span class="detail__stock--out">Out of stock</span>
+      } @else {
+        <span class="detail__stock--in">{{ product().stock }} in stock</span>
+      }
+    </p>
+
+    @if (outOfStock()) {
+      <div class="buy">
+        <button type="button" class="btn btn--ghost buy__notify" disabled>Notify me</button>
+        <span class="buy__hint">We’ll let you know when it’s back.</span>
+      </div>
+    } @else {
+      <div class="buy">
+        <div class="stepper" role="group" aria-label="Quantity">
+          <button type="button" (click)="dec()" [disabled]="quantity() <= 1" aria-label="Decrease">−</button>
+          <span class="stepper__val">{{ quantity() }}</span>
+          <button
+            type="button"
+            (click)="inc()"
+            [disabled]="quantity() >= maxQty()"
+            aria-label="Increase"
+          >
+            +
+          </button>
+        </div>
+        <button type="button" class="btn btn--primary buy__add" (click)="addToCart()">
+          Add to cart
+        </button>
+      </div>
+    }
+  </div>
+</article>
+
+@if (related().length) {
+  <section class="related">
+    <h2 class="related__title">Related products</h2>
+    <div class="related__grid">
+      @for (item of related(); track item.id) {
+        <app-product-card [product]="item" />
+      }
+    </div>
+  </section>
+}
