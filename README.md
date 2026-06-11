@@ -1,9 +1,9 @@
 # Storefront RBAC — Angular Frontend Assignment
 
 A role-gated Angular workspace: **one auth/state spine, two protected zones**
-(`/admin`, `/shop`). This repo currently implements **Task 1 — Auth + RBAC** in
-full; the Admin (Task 2) and Shop (Task 3) zones are scaffolded as lazy,
-guarded placeholders ready to build out.
+(`/admin`, `/shop`). All three tasks are implemented: **Task 1 — Auth + RBAC**,
+**Task 2 — Admin panel** (products, orders, analytics), and **Task 3 — Storefront**
+(catalogue, detail, cart, JSON-driven checkout).
 
 - **Angular 20.3**, standalone APIs (no NgModules)
 - **Signals** for state · **RxJS** for the async login round-trip
@@ -125,8 +125,38 @@ Dependency direction points **inward**: `features → core`, never the reverse.
 
 ## Roadmap status
 
-- ✅ **Task 1 — Auth + RBAC** (this delivery)
-- ⏳ **Task 2 — Admin** (products, orders, analytics) — zone scaffolded
-- ⏳ **Task 3 — Shop** (catalogue, detail, cart, checkout) — zone scaffolded
+- ✅ **Task 1 — Auth + RBAC** — signal `AuthService`, two functional guards,
+  mock JWT in `sessionStorage`, reactive login (OnPush + skeleton).
+- ✅ **Task 2 — Admin** — products (sortable/paginated table, debounced search +
+  category filter via `debounceTime`/`switchMap`, optimistic delete + toast,
+  live stock badges, add/edit via the shared dynamic form); orders (filterable
+  sortable table, detail side-panel, inline status via shared store); analytics
+  (KPIs `computed` from the shared stores). Each section is a lazy route.
+- ✅ **Task 3 — Shop** — catalogue (responsive grid, multi-select/price/in-stock
+  filters reflected in the URL, OnPush cards, live stock, `@defer` grid); detail
+  (route-resolver preload, qty stepper, related products, out-of-stock "Notify
+  me"); cart (signal `CartService`, localStorage, live nav badge); checkout (3
+  guarded lazy steps, pure tax pipe, JSON-driven delivery form, Luhn
+  `ControlValueAccessor`, optimistic submit → confirmation).
+
+## Testing & performance
+
+```bash
+npm test    # unit tests — Luhn validator + visibleWhen predicate (headless Chrome)
+```
+
+A `PerformanceObserver` logs **LCP/CLS** on the catalogue route. See
+`PERFORMANCE.md` for the five optimisation decisions and `docs/README.md` for how
+to capture the Lighthouse score and app screenshots.
+
+## Shared building blocks
+
+- **`DynamicFormComponent`** (`shared/components/dynamic-form`) — config-driven
+  renderer taking a `FieldConfig[]` + `FormGroup`, reused by the Task 2 product
+  form and the Task 3 checkout (built from `/assets/checkout-form.json`).
+- **`StockStreamService`** — one simulated stock feed shared by the admin table
+  and the storefront cards.
+- **`OrderStore`** — shared by the admin Orders view and the checkout (which
+  appends new orders to it).
 
 See `PROMPTS.md` for the build log and where decisions diverged from the brief.
