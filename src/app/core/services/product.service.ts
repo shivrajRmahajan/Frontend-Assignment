@@ -74,6 +74,24 @@ export class ProductService {
     );
   }
 
+  /**
+   * Fetch the whole catalogue in one call (`limit=0`).
+   *
+   * The storefront filters on multiple axes dummyjson can't express server-side
+   * (multi-category, price range, in-stock), so it loads once and derives
+   * filtered pages client-side — avoiding per-filter request waterfalls.
+   */
+  allProducts(): Observable<Product[]> {
+    return this.http
+      .get<RawList>(`${BASE}/products`, { params: { limit: 0, select: SELECT } })
+      .pipe(map((raw) => raw.products ?? []));
+  }
+
+  /** A single product by id — used by the Task 3 detail route resolver. */
+  getById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${BASE}/products/${id}`, { params: { select: SELECT } });
+  }
+
   /** Category list for the filter dropdown and the add/edit form. */
   categories(): Observable<ProductCategory[]> {
     return this.http.get<unknown[]>(`${BASE}/products/categories`).pipe(
