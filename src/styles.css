@@ -1,0 +1,139 @@
+/* ============================================================
+   Global design tokens + base + small utility classes.
+   Component-specific styling lives in each component's stylesheet.
+   ============================================================ */
+
+:root {
+  --fa-bg: #f5f6f8;
+  --fa-surface: #ffffff;
+  --fa-text: #1f2430;
+  --fa-muted: #6b7280;
+  --fa-muted-bg: #f1f3f5;
+  --fa-border: #e3e6ea;
+
+  --fa-primary: #4f46e5;
+  --fa-primary-600: #4338ca;
+  --fa-primary-bg: #eef0fe;
+  --fa-focus-ring: rgba(79, 70, 229, 0.28);
+
+  --fa-danger: #dc2626;
+  --fa-danger-bg: #fef2f2;
+
+  --fa-admin-bg: #eef0fe;
+  --fa-admin-fg: #4338ca;
+  --fa-user-bg: #e7f7ef;
+  --fa-user-fg: #11815b;
+
+  --fa-skeleton-base: #e8ebef;
+  --fa-skeleton-shine: #f4f6f8;
+
+  --fa-radius: 10px;
+  --fa-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.06),
+    0 10px 28px rgba(16, 24, 40, 0.06);
+  --fa-appbar-h: 60px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--fa-bg);
+  color: var(--fa-text);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--fa-primary);
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--fa-radius);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--fa-focus-ring);
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn--primary {
+  background: var(--fa-primary);
+  color: #fff;
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--fa-primary-600);
+}
+.btn--ghost {
+  background: transparent;
+  border-color: var(--fa-border);
+  color: var(--fa-text);
+}
+.btn--ghost:hover:not(:disabled) {
+  background: var(--fa-muted-bg);
+}
+
+/* ===== Role badge ===== */
+.badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+}
+.badge--admin {
+  background: var(--fa-admin-bg);
+  color: var(--fa-admin-fg);
+}
+.badge--user {
+  background: var(--fa-user-bg);
+  color: var(--fa-user-fg);
+}
+
+/* ===== Screen-reader-only helper ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
