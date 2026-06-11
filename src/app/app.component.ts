@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { AuthService } from './core/services/auth.service';
+import { ToasterComponent } from './shared/components/toaster/toaster.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ToasterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   // OnPush: the shell renders entirely from AuthService signals. Reading a signal
