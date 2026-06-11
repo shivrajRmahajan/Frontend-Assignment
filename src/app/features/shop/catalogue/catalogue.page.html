@@ -89,11 +89,26 @@
       </div>
     } @else {
       <p class="results__count">{{ store.total() }} products</p>
-      <div class="grid">
-        @for (product of store.visible(); track product.id) {
-          <app-product-card [product]="product" />
-        }
-      </div>
+
+      <!-- @defer: the product grid (and its card component chunk) load after the
+           shell is interactive; a skeleton grid holds the layout to avoid CLS. -->
+      @defer (on idle) {
+        <div class="grid">
+          @for (product of store.visible(); track product.id) {
+            <app-product-card [product]="product" />
+          }
+        </div>
+      } @placeholder {
+        <div class="grid" aria-hidden="true">
+          @for (s of skeletonCards; track $index) {
+            <div class="skeleton-card">
+              <app-skeleton height="150px" radius="10px" />
+              <app-skeleton height="0.8rem" width="50%" />
+              <app-skeleton height="1rem" width="80%" />
+            </div>
+          }
+        </div>
+      }
 
       <nav class="pager" aria-label="Pagination">
         <button

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { CatalogueFilters } from '../../../core/stores/catalogue-store';
 import { CatalogueStore } from '../../../core/stores/catalogue-store';
 import { ProductCardComponent } from './product-card.component';
 import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
+import { observeWebVitals } from '../../../shared/utils/web-vitals';
 
 /**
  * 3A — Product Catalogue.
@@ -28,6 +29,7 @@ export class CataloguePage {
   protected readonly store = inject(CatalogueStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   /** Placeholder cards shown while the catalogue loads. */
   protected readonly skeletonCards = Array.from({ length: 8 });
@@ -39,6 +41,9 @@ export class CataloguePage {
   constructor() {
     // URL → store: any query-param change re-applies the filters.
     effect(() => this.store.setFilters(this.parse(this.params())));
+
+    // Log LCP/CLS for this route; disconnect on destroy.
+    this.destroyRef.onDestroy(observeWebVitals());
   }
 
   protected isCategorySelected(slug: string): boolean {
