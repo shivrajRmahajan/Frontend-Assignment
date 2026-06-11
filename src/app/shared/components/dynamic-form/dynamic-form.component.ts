@@ -120,6 +120,15 @@ export class DynamicFormComponent {
     if (errors['minlength']) {
       return `Use at least ${errors['minlength'].requiredLength} characters.`;
     }
+    if (errors['maxlength']) {
+      return `Use at most ${errors['maxlength'].requiredLength} characters.`;
+    }
+    if (errors['email']) {
+      return 'Enter a valid email address.';
+    }
+    if (errors['pattern']) {
+      return 'Enter a valid value.';
+    }
     if (errors['min']) {
       return `Must be ${errors['min'].min} or more.`;
     }
