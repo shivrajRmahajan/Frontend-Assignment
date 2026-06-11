@@ -1,0 +1,137 @@
+<header class="page__head">
+  <div>
+    <h1 class="page__title">Products</h1>
+    <p class="page__sub">Search, sort, edit and manage the catalogue. Stock updates live.</p>
+  </div>
+  <button type="button" class="btn btn--primary" (click)="openAdd()">+ Add product</button>
+</header>
+
+<div class="toolbar">
+  <input
+    class="toolbar__search"
+    type="search"
+    placeholder="Search products…"
+    [value]="store.query().search"
+    (input)="onSearch($event)"
+    aria-label="Search products"
+  />
+
+  <select
+    class="toolbar__filter"
+    [value]="store.query().category"
+    (change)="onCategory($event)"
+    aria-label="Filter by category"
+  >
+    <option value="">All categories</option>
+    @for (cat of store.categories(); track cat.slug) {
+      <option [value]="cat.slug">{{ cat.name }}</option>
+    }
+  </select>
+</div>
+
+<div class="card">
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>
+          <button type="button" class="grid__sort" (click)="store.toggleSort('title')">
+            Name <span class="grid__ind">{{ sortIndicator('title') }}</span>
+          </button>
+        </th>
+        <th>
+          <button type="button" class="grid__sort" (click)="store.toggleSort('category')">
+            Category <span class="grid__ind">{{ sortIndicator('category') }}</span>
+          </button>
+        </th>
+        <th class="grid__num">
+          <button type="button" class="grid__sort" (click)="store.toggleSort('price')">
+            Price <span class="grid__ind">{{ sortIndicator('price') }}</span>
+          </button>
+        </th>
+        <th class="grid__num">
+          <button type="button" class="grid__sort" (click)="store.toggleSort('stock')">
+            Stock <span class="grid__ind">{{ sortIndicator('stock') }}</span>
+          </button>
+        </th>
+        <th class="grid__actions">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @if (store.loading()) {
+        @for (row of skeletonRows; track $index) {
+          <tr>
+            <td><app-skeleton height="1rem" width="60%" /></td>
+            <td><app-skeleton height="1rem" width="50%" /></td>
+            <td class="grid__num"><app-skeleton height="1rem" width="40%" /></td>
+            <td class="grid__num"><app-skeleton height="1rem" width="40%" /></td>
+            <td class="grid__actions"><app-skeleton height="1rem" width="70%" /></td>
+          </tr>
+        }
+      } @else if (store.failed()) {
+        <tr>
+          <td colspan="5" class="grid__state">
+            <p>Couldn’t load products.</p>
+            <button type="button" class="btn btn--ghost" (click)="store.reload()">Retry</button>
+          </td>
+        </tr>
+      } @else if (store.products().length === 0) {
+        <tr>
+          <td colspan="5" class="grid__state">No products match your filters.</td>
+        </tr>
+      } @else {
+        @for (product of store.products(); track product.id) {
+          <tr>
+            <td class="grid__name">{{ product.title }}</td>
+            <td class="grid__cat">{{ product.category }}</td>
+            <td class="grid__num">{{ '$' + product.price }}</td>
+            <td class="grid__num">
+              <span class="badge-stock badge-stock--{{ stockLevel(product.stock) }}">
+                {{ product.stock }}
+              </span>
+            </td>
+            <td class="grid__actions">
+              <button type="button" class="link" (click)="openEdit(product)">Edit</button>
+              <button type="button" class="link link--danger" (click)="confirmDelete(product)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+<footer class="pager">
+  <span class="pager__info">
+    Page {{ store.query().page }} of {{ store.pageCount() }} · {{ store.total() }} items
+  </span>
+  <div class="pager__btns">
+    <button
+      type="button"
+      class="btn btn--ghost"
+      (click)="store.prevPage()"
+      [disabled]="store.query().page <= 1 || store.loading()"
+    >
+      Prev
+    </button>
+    <button
+      type="button"
+      class="btn btn--ghost"
+      (click)="store.nextPage()"
+      [disabled]="store.query().page >= store.pageCount() || store.loading()"
+    >
+      Next
+    </button>
+  </div>
+</footer>
+
+@if (panelOpen()) {
+  <app-product-form-panel
+    [product]="editTarget()"
+    [categories]="store.categories()"
+    (save)="onSave($event)"
+    (close)="closePanel()"
+  />
+}
