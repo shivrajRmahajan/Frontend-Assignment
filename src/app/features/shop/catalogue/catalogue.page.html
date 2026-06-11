@@ -1,0 +1,119 @@
+<header class="page__head">
+  <h1 class="page__title">Catalogue</h1>
+  <p class="page__sub">Browse the full range. Filters are saved in the URL — share or bookmark a view.</p>
+</header>
+
+<div class="layout">
+  <aside class="filters" aria-label="Filters">
+    <div class="filters__block">
+      <h2 class="filters__title">Categories</h2>
+      <div class="chips">
+        @for (cat of store.categories(); track cat.slug) {
+          <button
+            type="button"
+            class="chip"
+            [class.chip--on]="isCategorySelected(cat.slug)"
+            [attr.aria-pressed]="isCategorySelected(cat.slug)"
+            (click)="toggleCategory(cat.slug)"
+          >
+            {{ cat.name }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="filters__block">
+      <h2 class="filters__title">Price</h2>
+      <div class="price">
+        <label class="price__row">
+          <span>Min ${{ store.filters().minPrice ?? store.priceBounds().min }}</span>
+          <input
+            type="range"
+            [min]="store.priceBounds().min"
+            [max]="store.priceBounds().max"
+            [value]="store.filters().minPrice ?? store.priceBounds().min"
+            (change)="onMinPrice($event)"
+            aria-label="Minimum price"
+          />
+        </label>
+        <label class="price__row">
+          <span>Max ${{ store.filters().maxPrice ?? store.priceBounds().max }}</span>
+          <input
+            type="range"
+            [min]="store.priceBounds().min"
+            [max]="store.priceBounds().max"
+            [value]="store.filters().maxPrice ?? store.priceBounds().max"
+            (change)="onMaxPrice($event)"
+            aria-label="Maximum price"
+          />
+        </label>
+      </div>
+    </div>
+
+    <div class="filters__block">
+      <label class="toggle">
+        <input
+          type="checkbox"
+          [checked]="store.filters().inStockOnly"
+          (change)="onInStock($event)"
+        />
+        <span>In stock only</span>
+      </label>
+    </div>
+
+    <button type="button" class="btn btn--ghost filters__clear" (click)="clearFilters()">
+      Clear filters
+    </button>
+  </aside>
+
+  <section class="results">
+    @if (store.loading()) {
+      <div class="grid" aria-busy="true">
+        @for (s of skeletonCards; track $index) {
+          <div class="skeleton-card">
+            <app-skeleton height="150px" radius="10px" />
+            <app-skeleton height="0.8rem" width="50%" />
+            <app-skeleton height="1rem" width="80%" />
+          </div>
+        }
+      </div>
+    } @else if (store.failed()) {
+      <div class="state">
+        <p>We couldn’t load the catalogue.</p>
+        <button type="button" class="btn btn--primary" (click)="store.load()">Retry</button>
+      </div>
+    } @else if (store.total() === 0) {
+      <div class="state">
+        <p>No products match your filters.</p>
+        <button type="button" class="btn btn--ghost" (click)="clearFilters()">Clear filters</button>
+      </div>
+    } @else {
+      <p class="results__count">{{ store.total() }} products</p>
+      <div class="grid">
+        @for (product of store.visible(); track product.id) {
+          <app-product-card [product]="product" />
+        }
+      </div>
+
+      <nav class="pager" aria-label="Pagination">
+        <button
+          type="button"
+          class="btn btn--ghost"
+          (click)="goToPage(store.page() - 1)"
+          [disabled]="store.page() <= 1"
+        >
+          Prev
+        </button>
+        <span class="pager__info">Page {{ store.page() }} of {{ store.pageCount() }}</span>
+        <button
+          type="button"
+          class="btn btn--ghost"
+          (click)="goToPage(store.page() + 1)"
+          [disabled]="store.page() >= store.pageCount()"
+        >
+          Next
+        </button>
+      </nav>
+    }
+  </section>
+</div>

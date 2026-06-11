@@ -2,12 +2,14 @@ import { Routes } from '@angular/router';
 
 /**
  * Shop feature routes — lazy-loaded behind `authGuard` (any signed-in user).
- * Task 3 adds catalogue / products/:id / cart / checkout here.
+ * Catalogue is the storefront landing; product detail and checkout (3B/3C)
+ * are added next.
  */
 export const SHOP_ROUTES: Routes = [
   {
     path: '',
-    title: 'Shop',
-    loadComponent: () => import('./shop-home/shop-home.component').then((m) => m.ShopHomeComponent),
+    title: 'Shop · Catalogue',
+    loadComponent: () =>
+      import('./catalogue/catalogue.page').then((m) => m.CataloguePage),
   },
 ];
