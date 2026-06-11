@@ -1,8 +1,10 @@
 .auth {
-  min-height: calc(100dvh - var(--fa-appbar-h));
+  /* Fill the viewport minus the appbar (60px) AND the .app-main vertical
+     padding (1.75rem top + 1.75rem bottom) so the page never overflows. */
+  min-height: calc(100dvh - var(--fa-appbar-h) - 3.5rem);
   display: grid;
   place-items: center;
-  padding: 2rem 1rem;
+  padding: 1rem;
 }
 
 .auth__card {
