@@ -15,6 +15,12 @@
     </nav>
 
     <div class="appbar__account">
+      <a class="appbar__cart" routerLink="/shop" aria-label="Cart">
+        🛒
+        @if (cart.count() > 0) {
+          <span class="appbar__cart-count">{{ cart.count() }}</span>
+        }
+      </a>
       <span class="appbar__user">
         <span class="appbar__name">{{ auth.currentUser()?.name }}</span>
         <span class="badge badge--{{ auth.role() }}">{{ auth.role() }}</span>

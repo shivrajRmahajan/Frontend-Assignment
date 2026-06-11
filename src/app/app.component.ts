@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { AuthService } from './core/services/auth.service';
+import { CartService } from './core/services/cart.service';
 import { ToasterComponent } from './shared/components/toaster/toaster.component';
 
 @Component({
@@ -16,4 +17,5 @@ import { ToasterComponent } from './shared/components/toaster/toaster.component'
 })
 export class AppComponent {
   protected readonly auth = inject(AuthService);
+  protected readonly cart = inject(CartService);
 }
