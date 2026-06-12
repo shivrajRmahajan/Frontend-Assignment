@@ -23,17 +23,18 @@ from source). Steps below.
 
 ## App screenshots — `docs/screenshots/`
 
-Capture these flows (PNG) and drop them in `docs/screenshots/`:
+Captured flows demonstrating the application:
 
-- `01-login.png` — login screen
-- `02-admin-products.png` — admin product table (sort/search/filter)
-- `03-admin-orders.png` — orders table with the detail side-panel open
-- `04-admin-analytics.png` — analytics KPIs
-- `05-shop-catalogue.png` — storefront grid with filters applied (note the URL)
+- `01-login.png` — login screen (email + password)
+- `02-admin-products.png` — admin product table (sort / search / filter)
+- `03-admin-orders.png` — orders table (status + date filters, sortable columns)
+- `04-admin-analytics.png` — analytics KPIs + orders-by-status donut
+- `05-shop-catalogue.png` — storefront grid with filters
 - `06-shop-detail.png` — product detail with related products
-- `07-checkout-delivery.png` — JSON-driven delivery form (show the conditional field)
-- `08-checkout-payment.png` — payment step with a Luhn error visible
-- `09-order-confirmation.png` — confirmation page
+- `07-checkout-cart.png` — cart review (subtotal / tax / total)
+- `08-checkout-delivery.png` — JSON-driven delivery form (conditional field shown)
+- `09-checkout-payment.png` — payment step (custom card input)
+- `10-order-confirmation.png` — confirmation page
 
 ## Login credentials (for reviewers)
 
