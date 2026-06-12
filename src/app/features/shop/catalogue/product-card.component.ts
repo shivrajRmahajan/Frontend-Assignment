@@ -102,6 +102,9 @@ import { Product } from '../../../core/models/product.model';
       font-size: 0.95rem;
       font-weight: 600;
       line-height: 1.3;
+      /* Always reserve two lines so 1- and 2-line titles take equal space,
+         keeping every card the same height across the grid. */
+      min-height: 2.6em;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
