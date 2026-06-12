@@ -125,7 +125,7 @@ Dependency direction points **inward**: `features → shared → core`, never th
 
 ---
 
-## Roadmap status
+## What's implemented
 
 - **Task 1 — Auth + RBAC** — signal `AuthService`, two functional guards,
   mock JWT in `sessionStorage`, reactive login (OnPush + skeleton).
