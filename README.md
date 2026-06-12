@@ -1,4 +1,4 @@
-# Storefront RBAC — Angular Frontend Assignment
+# StoreShop — Angular Frontend Assignment
 
 A role-gated Angular workspace: **one auth/state spine, two protected zones**
 (`/admin`, `/shop`). All three tasks are implemented: **Task 1 — Auth + RBAC**,
