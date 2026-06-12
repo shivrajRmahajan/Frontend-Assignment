@@ -1,20 +1,24 @@
-# Docs — required artifacts
+# Docs — submission artifacts
 
-The submission checklist asks for a Lighthouse screenshot and app screenshots.
-These are **captured manually from the running app** (they can't be generated
-from source). Steps below.
+This folder holds the required artifacts: the Lighthouse screenshot
+(`lighthouse.png`) and the app screenshots (`screenshots/`). Both are committed —
+they were captured manually from the running app (they can't be generated from
+source). The steps below document how to reproduce them.
 
-## Lighthouse — `docs/lighthouse.png` (target ≥ 85)
+## Lighthouse — `docs/lighthouse.png` (target ≥ 85; achieved 98)
 
-1. Build and serve a production bundle (Lighthouse should run against prod, not
-   the dev server):
+1. Build and serve the **production** bundle (Lighthouse must run against prod,
+   not the dev server). Use a static server with SPA fallback so deep links
+   resolve:
    ```bash
    npm run build
-   npx http-server dist/frontend-assignment/browser -p 4200
+   npx serve -s dist/frontend-assignment/browser -l 4200
    ```
 2. Open Chrome at `http://localhost:4200`, sign in as a **user**
    (`priya@store.example` / `User@123`) and navigate to `/shop`.
-3. DevTools → **Lighthouse** tab → Categories: Performance → **Analyze page load**.
+3. DevTools → **Lighthouse** tab → Categories: Performance. **Uncheck "Clear
+   storage"** — `/shop` is behind the auth guard, so clearing storage would log
+   you out and measure `/login` instead → **Analyze page load**.
 4. Screenshot the score summary and save it as **`docs/lighthouse.png`**.
 
 > The catalogue logs **LCP** and **CLS** to the console via `PerformanceObserver`
