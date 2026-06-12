@@ -33,8 +33,7 @@ npm test           # unit tests (Karma + Jasmine)
 ## Login credentials
 
 Passwords are stored only as **SHA-256 hashes** (`src/app/core/data/users.seed.ts`);
-these plain-text values are for the demo. On the login screen you can also click a
-**demo chip** to fill the form.
+the plain-text values below are for the demo only.
 
 | Email                 | Password    | Role  | Lands on |
 | --------------------- | ----------- | ----- | -------- |
@@ -73,8 +72,8 @@ No component keeps its own copy of the user.
 | Visitor            | `/admin`              | `/shop`              |
 | ------------------ | --------------------- | -------------------- |
 | Signed out         | → `/login?returnUrl`  | → `/login?returnUrl` |
-| Signed in as user  | → `/shop`             | ✅ allowed           |
-| Signed in as admin | ✅ allowed            | ✅ allowed           |
+| Signed in as user  | → `/shop`             | allowed              |
+| Signed in as admin | allowed               | allowed              |
 
 ### Project structure
 
@@ -125,14 +124,14 @@ Dependency direction points **inward**: `features → core`, never the reverse.
 
 ## Roadmap status
 
-- ✅ **Task 1 — Auth + RBAC** — signal `AuthService`, two functional guards,
+- **Task 1 — Auth + RBAC** — signal `AuthService`, two functional guards,
   mock JWT in `sessionStorage`, reactive login (OnPush + skeleton).
-- ✅ **Task 2 — Admin** — products (sortable/paginated table, debounced search +
+- **Task 2 — Admin** — products (sortable/paginated table, debounced search +
   category filter via `debounceTime`/`switchMap`, optimistic delete + toast,
   live stock badges, add/edit via the shared dynamic form); orders (filterable
   sortable table, detail side-panel, inline status via shared store); analytics
   (KPIs `computed` from the shared stores). Each section is a lazy route.
-- ✅ **Task 3 — Shop** — catalogue (responsive grid, multi-select/price/in-stock
+- **Task 3 — Shop** — catalogue (responsive grid, multi-select/price/in-stock
   filters reflected in the URL, OnPush cards, live stock, `@defer` grid); detail
   (route-resolver preload, qty stepper, related products, out-of-stock "Notify
   me"); cart (signal `CartService`, localStorage, live nav badge); checkout (3

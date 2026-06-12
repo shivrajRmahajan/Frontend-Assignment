@@ -41,12 +41,6 @@ export class LoginComponent {
     this.showPassword.update((visible) => !visible);
   }
 
-  /** Quick-fill helper for the demo-account chips. */
-  protected fillDemo(email: string, password: string): void {
-    this.form.setValue({ email, password });
-    this.errorMessage.set(null);
-  }
-
   /** Show a field's inline error only once the user has engaged with it. */
   protected showError(controlName: 'email' | 'password'): boolean {
     const control = this.form.get(controlName);
