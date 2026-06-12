@@ -64,8 +64,7 @@ role-based post-login redirects. Standalone + `inject()` only, cleanup via
    non-admin to `/shop` (not back to login).
 
 ### Small UX additions beyond the brief
-- Password show/hide toggle.
-- "Demo accounts — click to fill" chips, so a grader can sign in in one click.
+- Password reveal toggle (eye icon inside the field).
 - Skip-to-content link + focus-visible rings + `prefers-reduced-motion` on the
   skeleton shimmer.
 
