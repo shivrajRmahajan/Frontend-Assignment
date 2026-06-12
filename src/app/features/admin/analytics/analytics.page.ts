@@ -53,17 +53,35 @@ export class AnalyticsPage {
     return gross / all.length;
   });
 
-  /** Largest status bucket — scales the proportion bars. */
-  protected readonly maxCount = computed(() => {
+  /**
+   * Donut segments for "orders by status".
+   *
+   * Uses the classic 100-unit-circumference SVG trick (r = 15.915 → C ≈ 100), so
+   * a segment's `stroke-dasharray` length IS its percentage. `offset = 125 - sum
+   * of preceding percentages` rotates each arc to start where the previous ended
+   * (the +25 puts the first arc at 12 o'clock).
+   */
+  protected readonly donut = computed(() => {
     const c = this.counts();
-    return Math.max(1, c.Pending, c.Confirmed, c.Cancelled);
+    const total = c.Pending + c.Confirmed + c.Cancelled;
+    let before = 0;
+    const segments = (['Pending', 'Confirmed', 'Cancelled'] as const).map((key) => {
+      const count = c[key];
+      const pct = total === 0 ? 0 : (count / total) * 100;
+      const segment = {
+        key,
+        count,
+        pct: Math.round(pct),
+        dash: `${pct} ${100 - pct}`,
+        offset: 125 - before,
+      };
+      before += pct;
+      return segment;
+    });
+    return { total, segments };
   });
 
   protected money(value: number): string {
     return '$' + value.toFixed(2);
-  }
-
-  protected barWidth(count: number): string {
-    return Math.round((count / this.maxCount()) * 100) + '%';
   }
 }

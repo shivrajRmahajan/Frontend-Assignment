@@ -32,27 +32,46 @@
 <section class="breakdown card">
   <h2 class="breakdown__title">Orders by status</h2>
 
-  <div class="bar">
-    <span class="bar__label">Pending</span>
-    <div class="bar__track">
-      <div class="bar__fill bar__fill--Pending" [style.width]="barWidth(counts().Pending)"></div>
-    </div>
-    <span class="bar__count">{{ counts().Pending }}</span>
-  </div>
+  @if (donut().total > 0) {
+    <div class="donut-wrap">
+      <svg
+        class="donut"
+        viewBox="0 0 42 42"
+        role="img"
+        aria-label="Orders by status distribution"
+      >
+        <circle class="donut__ring" cx="21" cy="21" r="15.915" />
+        @for (seg of donut().segments; track seg.key) {
+          @if (seg.count > 0) {
+            <circle
+              class="donut__seg donut__seg--{{ seg.key }}"
+              cx="21"
+              cy="21"
+              r="15.915"
+              [attr.stroke-dasharray]="seg.dash"
+              [attr.stroke-dashoffset]="seg.offset"
+            >
+              <title>{{ seg.key }}: {{ seg.count }} ({{ seg.pct }}%)</title>
+            </circle>
+          }
+        }
+        <text class="donut__total" x="21" y="20" dominant-baseline="central">
+          {{ donut().total }}
+        </text>
+        <text class="donut__caption" x="21" y="26.5" dominant-baseline="central">orders</text>
+      </svg>
 
-  <div class="bar">
-    <span class="bar__label">Confirmed</span>
-    <div class="bar__track">
-      <div class="bar__fill bar__fill--Confirmed" [style.width]="barWidth(counts().Confirmed)"></div>
+      <ul class="legend">
+        @for (seg of donut().segments; track seg.key) {
+          <li class="legend__item">
+            <span class="legend__dot legend__dot--{{ seg.key }}"></span>
+            <span class="legend__name">{{ seg.key }}</span>
+            <span class="legend__val">{{ seg.count }} · {{ seg.pct }}%</span>
+          </li>
+        }
+      </ul>
     </div>
-    <span class="bar__count">{{ counts().Confirmed }}</span>
-  </div>
-
-  <div class="bar">
-    <span class="bar__label">Cancelled</span>
-    <div class="bar__track">
-      <div class="bar__fill bar__fill--Cancelled" [style.width]="barWidth(counts().Cancelled)"></div>
-    </div>
-    <span class="bar__count">{{ counts().Cancelled }}</span>
-  </div>
+  } @else {
+    <p class="breakdown__empty">No orders yet.</p>
+  }
 </section>
