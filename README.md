@@ -100,7 +100,7 @@ src/app/
 
 Dependency direction points **inward**: `features → shared → core`, never the reverse.
 
-### Why these choices (interview anchors)
+### Why these choices
 
 - **Signals over observables for auth state** — synchronous derived UI state with
   glitch-free `computed`, no subscription bookkeeping. Observables kept for the
