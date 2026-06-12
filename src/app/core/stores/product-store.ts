@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Subject, debounceTime, merge, of, startWith, switchMap } from 'rxjs';
@@ -162,7 +163,15 @@ export class ProductStore {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.toast.success(`Deleted “${product.title}”.`),
-        error: () => {
+        error: (err: unknown) => {
+          // dummyjson 404s for products it doesn't hold — e.g. ones just added
+          // in-session (their id is simulated, never persisted). A DELETE on a
+          // resource that isn't there is idempotently "already deleted", so keep
+          // the row removed; only roll back on a genuine failure.
+          if (err instanceof HttpErrorResponse && err.status === 404) {
+            this.toast.success(`Deleted “${product.title}”.`);
+            return;
+          }
           this._items.set(snapshot);
           this._total.update((t) => t + 1);
           this.toast.error(`Couldn’t delete “${product.title}” — row restored.`);
