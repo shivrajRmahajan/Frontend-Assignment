@@ -33,7 +33,7 @@ export class LoginComponent {
 
   // nonNullable: controls are typed `string`, so getRawValue() is fully typed.
   protected readonly form = this.fb.nonNullable.group({
-    username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
@@ -42,13 +42,13 @@ export class LoginComponent {
   }
 
   /** Quick-fill helper for the demo-account chips. */
-  protected fillDemo(username: string, password: string): void {
-    this.form.setValue({ username, password });
+  protected fillDemo(email: string, password: string): void {
+    this.form.setValue({ email, password });
     this.errorMessage.set(null);
   }
 
   /** Show a field's inline error only once the user has engaged with it. */
-  protected showError(controlName: 'username' | 'password'): boolean {
+  protected showError(controlName: 'email' | 'password'): boolean {
     const control = this.form.get(controlName);
     return !!control && control.invalid && (control.touched || control.dirty);
   }
@@ -66,10 +66,10 @@ export class LoginComponent {
 
     this.loading.set(true);
     void this.live.announce('Signing in…', 'polite');
-    const { username, password } = this.form.getRawValue();
+    const { email, password } = this.form.getRawValue();
 
     this.auth
-      .login({ username, password })
+      .login({ email, password })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (user) => {

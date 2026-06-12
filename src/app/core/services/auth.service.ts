@@ -49,18 +49,18 @@ export class AuthService {
    * or errors with a friendly message on bad credentials.
    */
   login(credentials: LoginCredentials): Observable<AuthUser> {
-    const username = credentials.username.trim().toLowerCase();
+    const email = credentials.email.trim().toLowerCase();
 
     return from(sha256Hex(credentials.password)).pipe(
       delay(LOGIN_LATENCY_MS),
       map((passwordHash) => {
         const match = SEED_USERS.find(
-          (u) => u.username.toLowerCase() === username && u.passwordHash === passwordHash,
+          (u) => u.email.toLowerCase() === email && u.passwordHash === passwordHash,
         );
         if (!match) {
-          throw new Error('Invalid username or password.');
+          throw new Error('Invalid email or password.');
         }
-        const user: AuthUser = { username: match.username, name: match.name, role: match.role };
+        const user: AuthUser = { email: match.email, name: match.name, role: match.role };
         return user;
       }),
       tap((user) => {
@@ -106,7 +106,7 @@ export class AuthService {
       sessionStorage.removeItem(TOKEN_STORAGE_KEY);
       return null;
     }
-    return { username: payload.username, name: payload.name, role: payload.role };
+    return { email: payload.email, name: payload.name, role: payload.role };
   }
 
   private nowSeconds(): number {

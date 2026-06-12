@@ -7,7 +7,7 @@ export type Role = 'admin' | 'user';
  * so a leak of this "table" never exposes a usable credential.
  */
 export interface SeedUser {
-  username: string;
+  email: string;
   name: string;
   role: Role;
   /** Lowercase hex SHA-256 digest of the password. */
@@ -19,7 +19,7 @@ export interface SeedUser {
  * Deliberately omits the password hash — UI code never sees credentials.
  */
 export interface AuthUser {
-  username: string;
+  email: string;
   name: string;
   role: Role;
 }
@@ -34,6 +34,6 @@ export interface JwtPayload extends AuthUser {
 
 /** Raw login form input. */
 export interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }

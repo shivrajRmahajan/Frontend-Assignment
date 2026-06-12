@@ -1,10 +1,22 @@
-.auth {
-  /* Fill the viewport minus the appbar (60px) AND the .app-main vertical
-     padding (1.75rem top + 1.75rem bottom) so the page never overflows. */
-  min-height: calc(100dvh - var(--fa-appbar-h) - 3.5rem);
+/* The host fills the main content area (the shell flexes .app-main to fill the
+   space below the appbar) and centres the card. Because appbar + main + this
+   host sum to exactly the viewport, the login screen never scrolls. `100%`
+   resolves here because .app-main has a definite height from the flex shell.
+   The card's spacing is vh-fluid (clamp), so on short screens it shrinks to fit
+   rather than scrolling; overflow:hidden is the hard guarantee against scroll. */
+:host {
+  min-height: 100%;
   display: grid;
   place-items: center;
-  padding: 1rem;
+  padding: clamp(0.5rem, 2vh, 1rem);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.auth {
+  width: 100%;
+  display: grid;
+  justify-items: center;
 }
 
 .auth__card {
@@ -14,20 +26,20 @@
   border: 1px solid var(--fa-border);
   border-radius: calc(var(--fa-radius) + 6px);
   box-shadow: var(--fa-shadow);
-  padding: 1.75rem;
+  padding: clamp(1.1rem, 3.5vh, 1.75rem);
 }
 
 .auth__head {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(0.85rem, 3vh, 1.5rem);
 }
 
 .auth__logo {
   display: inline-grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 0.75rem;
+  width: clamp(36px, 8vh, 44px);
+  height: clamp(36px, 8vh, 44px);
+  margin-bottom: clamp(0.4rem, 1.5vh, 0.75rem);
   border-radius: 12px;
   color: #fff;
   background: linear-gradient(135deg, var(--fa-primary), var(--fa-primary-600));
@@ -36,7 +48,7 @@
 
 .auth__title {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 4vh, 1.5rem);
 }
 
 .auth__subtitle {
@@ -47,7 +59,7 @@
 
 .auth__form {
   display: grid;
-  gap: 1rem;
+  gap: clamp(0.6rem, 2.2vh, 1rem);
 }
 
 .auth__alert {
@@ -71,8 +83,12 @@
 }
 
 .field__group {
-  display: flex;
-  gap: 0.5rem;
+  position: relative;
+}
+
+/* leave room for the suffix icon so typed text never sits under it */
+.field__group .field__input {
+  padding-right: 2.75rem;
 }
 
 .field__input {
@@ -107,20 +123,43 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--fa-danger) 22%, transparent);
 }
 
+/* suffix icon: sits inside the input on the trailing edge */
 .field__reveal {
-  flex: 0 0 auto;
-  padding: 0 0.8rem;
-  border: 1px solid var(--fa-border);
-  border-radius: var(--fa-radius);
-  background: var(--fa-muted-bg);
-  color: var(--fa-text);
-  font-size: 0.8rem;
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--fa-muted);
   cursor: pointer;
+  transition: color 0.15s;
+}
+
+.field__reveal:hover:not(:disabled) {
+  color: var(--fa-text);
+}
+
+.field__reveal:focus-visible {
+  outline: none;
+  color: var(--fa-text);
+  box-shadow: 0 0 0 2px var(--fa-focus-ring);
 }
 
 .field__reveal:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.field__reveal-icon {
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 .field__error {
@@ -131,8 +170,16 @@
 
 .auth__submit {
   width: 100%;
-  height: 46px;
+  height: clamp(40px, 8vh, 46px);
   margin-top: 0.25rem;
+}
+
+/* Very short viewports (e.g. landscape phones): drop the non-essential
+   subtitle so the card always fits without scrolling. */
+@media (max-height: 520px) {
+  .auth__subtitle {
+    display: none;
+  }
 }
 
 .auth__demo {

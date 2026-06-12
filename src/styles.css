@@ -137,3 +137,23 @@ a {
   white-space: nowrap;
   border: 0;
 }
+
+/* Angular CDK visually-hidden: hides the LiveAnnouncer's live region (e.g. the
+   login "Signing in…" message) off-screen while keeping it announced to screen
+   readers. The CDK adds this class but ships its CSS only via a Sass mixin, so
+   we include the canonical rule here. */
+.cdk-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+  outline: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  left: 0;
+}

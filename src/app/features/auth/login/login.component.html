@@ -18,26 +18,26 @@
       }
 
       <div class="field">
-        <label class="field__label" for="username">Username</label>
+        <label class="field__label" for="email">Email</label>
         <input
-          id="username"
+          id="email"
           class="field__input"
-          type="text"
-          formControlName="username"
-          autocomplete="username"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
           autocapitalize="none"
           spellcheck="false"
           [readonly]="loading()"
-          [class.field__input--invalid]="showError('username')"
-          [attr.aria-invalid]="showError('username')"
-          [attr.aria-describedby]="showError('username') ? 'username-error' : null"
+          [class.field__input--invalid]="showError('email')"
+          [attr.aria-invalid]="showError('email')"
+          [attr.aria-describedby]="showError('email') ? 'email-error' : null"
         />
-        @if (showError('username')) {
-          <p class="field__error" id="username-error">
-            @if (form.controls.username.errors?.['required']) {
-              Username is required.
-            } @else if (form.controls.username.errors?.['minlength']) {
-              Use at least 3 characters.
+        @if (showError('email')) {
+          <p class="field__error" id="email-error">
+            @if (form.controls.email.errors?.['required']) {
+              Email is required.
+            } @else if (form.controls.email.errors?.['email']) {
+              Enter a valid email address.
             }
           </p>
         }
@@ -62,9 +62,42 @@
             class="field__reveal"
             (click)="togglePassword()"
             [attr.aria-pressed]="showPassword()"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
             [disabled]="loading()"
           >
-            {{ showPassword() ? 'Hide' : 'Show' }}
+            @if (showPassword()) {
+              <!-- eye-off: password is visible, click to hide -->
+              <svg
+                class="field__reveal-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9.88 9.88a3 3 0 0 0 4.24 4.24" />
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                <path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                <line x1="2" y1="2" x2="22" y2="22" />
+              </svg>
+            } @else {
+              <!-- eye: password is hidden, click to show -->
+              <svg
+                class="field__reveal-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            }
           </button>
         </div>
         @if (showError('password')) {
@@ -86,18 +119,18 @@
       }
     </form>
 
-    <footer class="auth__demo">
+    <!-- <footer class="auth__demo">
       <p class="auth__demo-title">Demo accounts — click to fill</p>
       <div class="auth__demo-grid">
-        <button type="button" class="chip" (click)="fillDemo('admin1', 'Admin@123')">
+        <button type="button" class="chip" (click)="fillDemo('aisha@store.example', 'Admin@123')">
           <span class="chip__role chip__role--admin">admin</span>
-          <span>admin1 · Admin&#64;123</span>
+          <span>aisha&#64;store.example · Admin&#64;123</span>
         </button>
-        <button type="button" class="chip" (click)="fillDemo('user1', 'User@123')">
+        <button type="button" class="chip" (click)="fillDemo('priya@store.example', 'User@123')">
           <span class="chip__role chip__role--user">user</span>
-          <span>user1 · User&#64;123</span>
+          <span>priya&#64;store.example · User&#64;123</span>
         </button>
       </div>
-    </footer>
+    </footer> -->
   </section>
 </div>

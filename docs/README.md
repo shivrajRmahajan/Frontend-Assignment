@@ -12,8 +12,8 @@ from source). Steps below.
    npm run build
    npx http-server dist/frontend-assignment/browser -p 4200
    ```
-2. Open Chrome at `http://localhost:4200`, sign in as a **user** (`user1` /
-   `User@123`) and navigate to `/shop`.
+2. Open Chrome at `http://localhost:4200`, sign in as a **user**
+   (`priya@store.example` / `User@123`) and navigate to `/shop`.
 3. DevTools → **Lighthouse** tab → Categories: Performance → **Analyze page load**.
 4. Screenshot the score summary and save it as **`docs/lighthouse.png`**.
 
@@ -37,7 +37,7 @@ Capture these flows (PNG) and drop them in `docs/screenshots/`:
 
 ## Login credentials (for reviewers)
 
-| Username | Password    | Role  | Lands on |
-| -------- | ----------- | ----- | -------- |
-| `admin1` | `Admin@123` | admin | `/admin` |
-| `user1`  | `User@123`  | user  | `/shop`  |
+| Email                 | Password    | Role  | Lands on |
+| --------------------- | ----------- | ----- | -------- |
+| `aisha@store.example` | `Admin@123` | admin | `/admin` |
+| `priya@store.example` | `User@123`  | user  | `/shop`  |

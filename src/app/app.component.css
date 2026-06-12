@@ -1,3 +1,12 @@
+/* Shell owns the viewport: a flex column so the appbar takes its natural
+   height and .app-main fills everything below it. No page needs to know the
+   appbar's height — children just fill .app-main. */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -14,6 +23,7 @@
 
 .appbar {
   height: var(--fa-appbar-h);
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -104,6 +114,7 @@
 }
 
 .app-main {
+  flex: 1 1 auto;
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;

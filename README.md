@@ -36,12 +36,12 @@ Passwords are stored only as **SHA-256 hashes** (`src/app/core/data/users.seed.t
 these plain-text values are for the demo. On the login screen you can also click a
 **demo chip** to fill the form.
 
-| Username | Password    | Role  | Lands on |
-| -------- | ----------- | ----- | -------- |
-| `admin1` | `Admin@123` | admin | `/admin` |
-| `admin2` | `Admin@234` | admin | `/admin` |
-| `user1`  | `User@123`  | user  | `/shop`  |
-| `user2`  | `User@234`  | user  | `/shop`  |
+| Email                 | Password    | Role  | Lands on |
+| --------------------- | ----------- | ----- | -------- |
+| `aisha@store.example` | `Admin@123` | admin | `/admin` |
+| `rohan@store.example` | `Admin@234` | admin | `/admin` |
+| `priya@store.example` | `User@123`  | user  | `/shop`  |
+| `karan@store.example` | `User@234`  | user  | `/shop`  |
 
 ---
 

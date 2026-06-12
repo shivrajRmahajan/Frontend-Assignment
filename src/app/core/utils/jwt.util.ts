@@ -56,7 +56,7 @@ export function decodeMockJwt(token: string): JwtPayload | null {
   try {
     const payload = JSON.parse(base64UrlDecode(segments[1])) as JwtPayload;
     const valid =
-      typeof payload.username === 'string' &&
+      typeof payload.email === 'string' &&
       typeof payload.role === 'string' &&
       typeof payload.exp === 'number';
     return valid ? payload : null;
