@@ -42,14 +42,17 @@ live stock tick for one item repaints one card — not the whole grid.
 - **After** (OnPush + new object only for the changed row): **1 card check per
   tick**.
 
-### 4. `select=` projection on the API + `loading="lazy"` images
+### 4. `select=` projection on the API + lazy grid images
 
 The product fetch requests only the fields the UI renders (`select=title,price,
-stock,…`) and card/detail images use `loading="lazy"`.
+stock,…`), and the catalogue's grid thumbnails use `loading="lazy"` so off-screen
+images aren't fetched until scrolled into view. (The detail page's hero image is
+left **eager** — it's the LCP element there, so lazy-loading it would hurt LCP.)
 
-- **Before** (full product payload, eager images): larger JSON + all thumbnails
-  requested up front. _(synthetic: ~2.1× JSON size, ~30 image requests on load)_
-- **After**: trimmed JSON and **only above-the-fold images** fetched initially.
+- **Before** (full product payload, every thumbnail eager): larger JSON + all
+  grid images requested up front. _(synthetic: ~2.1× JSON size, ~30 image
+  requests on load)_
+- **After**: trimmed JSON and only on-screen grid images fetched initially.
 
 ### 5. Pure `TaxPipe` + stable layout to protect CLS
 
@@ -69,5 +72,6 @@ real grid swaps in without shifting layout.
 
 A `PerformanceObserver` is attached on the catalogue route (see
 `src/app/shared/utils/web-vitals.ts`) and logs **LCP** and **CLS** to the
-console — open DevTools on `/shop` to see them. For the Lighthouse run and the
-required screenshot, see `docs/README.md`.
+console — open DevTools on `/shop` to see them. On the production build the
+catalogue route scores **Performance 98** in Lighthouse (`docs/lighthouse.png`);
+for how to reproduce that run, see `docs/README.md`.
