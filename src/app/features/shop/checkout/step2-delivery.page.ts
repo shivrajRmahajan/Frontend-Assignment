@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { CheckoutFormJson } from '../../../core/models/checkout.model';
@@ -22,10 +23,10 @@ import {
  */
 @Component({
   selector: 'app-delivery-step',
-  imports: [RouterLink, DynamicFormComponent],
+  imports: [ReactiveFormsModule, RouterLink, DynamicFormComponent],
   template: `
     @if (built(); as form) {
-      <form (ngSubmit)="submit(form)">
+      <form [formGroup]="form.group" (ngSubmit)="submit(form)">
         <app-dynamic-form [fields]="form.fields" [group]="form.group" />
         <footer class="actions">
           <a class="btn btn--ghost" routerLink="/shop/checkout/step/1">Back</a>

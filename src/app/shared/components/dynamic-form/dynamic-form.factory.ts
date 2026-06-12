@@ -59,10 +59,17 @@ export function buildDynamicForm(jsonFields: CheckoutFieldJson[]): BuiltForm {
       .map(toValidator)
       .filter((v): v is ValidatorFn => v !== null);
 
-    controls[f.name] = new FormControl(
-      f.defaultValue ?? (f.type === 'number' ? 0 : ''),
-      validators,
-    );
+    // A select with no explicit default takes its first option, so the model
+    // matches what the native <select> shows (an empty model under a select that
+    // visually shows option 1 would silently fail a `required` validator).
+    const fallback =
+      f.type === 'select' && f.options?.length
+        ? f.options[0].value
+        : f.type === 'number'
+          ? 0
+          : '';
+
+    controls[f.name] = new FormControl(f.defaultValue ?? fallback, validators);
 
     fields.push({
       name: f.name,

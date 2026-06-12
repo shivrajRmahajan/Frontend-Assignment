@@ -7,7 +7,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Product, ProductCategory, ProductInput } from '../../../core/models/product.model';
 import { FieldConfig } from '../../../shared/components/dynamic-form/field-config.model';
@@ -25,7 +25,7 @@ import { DynamicFormComponent } from '../../../shared/components/dynamic-form/dy
  */
 @Component({
   selector: 'app-product-form-panel',
-  imports: [DynamicFormComponent],
+  imports: [ReactiveFormsModule, DynamicFormComponent],
   template: `
     <div class="modal" role="dialog" aria-modal="true" [attr.aria-label]="heading()">
       <div class="modal__backdrop" (click)="close.emit()"></div>
@@ -35,7 +35,7 @@ import { DynamicFormComponent } from '../../../shared/components/dynamic-form/dy
           <button type="button" class="modal__x" (click)="close.emit()" aria-label="Close">×</button>
         </header>
 
-        <form (ngSubmit)="submit()">
+        <form [formGroup]="form" (ngSubmit)="submit()">
           <app-dynamic-form [fields]="fields()" [group]="form" />
 
           <footer class="modal__foot">
