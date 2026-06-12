@@ -6,7 +6,8 @@ A role-gated Angular workspace: **one auth/state spine, two protected zones**
 (catalogue, detail, cart, JSON-driven checkout).
 
 - **Angular 20.3**, standalone APIs (no NgModules)
-- **Signals** for state · **RxJS** for the async login round-trip
+- **Signals** for state · **RxJS** for async streams (login round-trip, debounced
+  search via `switchMap`, the simulated stock feed)
 - **Angular CDK** (a11y) + hand-written **plain CSS**
 - `inject()` everywhere (no constructor DI) · `takeUntilDestroyed` cleanup
 
@@ -80,22 +81,24 @@ No component keeps its own copy of the user.
 ```
 src/app/
   core/                    app-wide singletons (depend on nothing inward)
-    models/user.model.ts
-    data/users.seed.ts     hashed mock user "table"
+    models/                user, product, order, cart, checkout
+    data/                  users.seed.ts (hashed), orders.seed.ts
     utils/                 crypto.util.ts (SHA-256), jwt.util.ts (mock JWT)
-    services/auth.service.ts
+    services/              auth, product, cart, checkout, stock-stream
+    stores/                product / order / catalogue signal stores
     guards/                auth.guard.ts, admin.guard.ts
-  shared/                  reusable dumb pieces
-    components/skeleton/   shimmer placeholder (reused in Tasks 2–3)
+  shared/                  reusable pieces (no feature knowledge)
+    components/            skeleton, dynamic-form, card-input (CVA), toaster
+    pipes/tax.pipe.ts      pure pipe · utils/ luhn.util.ts, web-vitals.ts
   features/
     auth/login/            reactive login (OnPush, skeleton, inline validation)
-    admin/                 lazy zone (authGuard + adminGuard)  — Task 2
-    shop/                  lazy zone (authGuard)               — Task 3
+    admin/                 lazy zone (authGuard + adminGuard) — products/orders/analytics
+    shop/                  lazy zone (authGuard) — catalogue/detail/checkout
   app.component.*          shell: role-aware nav + logout
   app.routes.ts            top-level routes + guard wiring
 ```
 
-Dependency direction points **inward**: `features → core`, never the reverse.
+Dependency direction points **inward**: `features → shared → core`, never the reverse.
 
 ### Why these choices (interview anchors)
 
@@ -103,7 +106,7 @@ Dependency direction points **inward**: `features → core`, never the reverse.
   glitch-free `computed`, no subscription bookkeeping. Observables kept for the
   async login call only.
 - **`sessionStorage` not `localStorage`** — session-scoped identity. (Task 3's
-  cart will use `localStorage`, because a cart should survive a tab close.)
+  cart uses `localStorage` instead, because a cart should survive a tab close.)
 - **OnPush on the login form** — no `@Input`s to diff; the only changes are
   reactive-form events Angular already tracks plus three local signals, so OnPush
   removes wasted change-detection passes. (Each OnPush component carries a comment
@@ -141,7 +144,8 @@ Dependency direction points **inward**: `features → core`, never the reverse.
 ## Testing & performance
 
 ```bash
-npm test    # unit tests — Luhn validator + visibleWhen predicate (headless Chrome)
+npm test    # unit tests (Karma + Jasmine) — Luhn validator + visibleWhen predicate
+# one-shot headless run (CI): ng test --watch=false --browsers=ChromeHeadless
 ```
 
 A `PerformanceObserver` logs **LCP/CLS** on the catalogue route. See
