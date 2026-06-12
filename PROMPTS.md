@@ -8,7 +8,7 @@ brief, and why**. (Mandated by the assignment.)
 
 ## Task 1 — Auth + RBAC (the state spine)
 
-**Driving instruction:** _"Build Task 1 (Auth + RBAC) from the roadmap: hashed
+**Driving instruction:** _"Build Task 1 (Auth + RBAC) from the brief: hashed
 seed users, a signal-based `AuthService` (single source of truth) with a 600 ms
 mock login, mock-JWT in sessionStorage, refresh-rehydration, a reactive login
 page with inline validation + skeleton + error state, two functional guards, and
@@ -48,7 +48,7 @@ role-based post-login redirects. Standalone + `inject()` only, cleanup via
 5. **Naming convention.** Angular 20.3 scaffolds the suffix-less style
    (`app.ts` → class `App`). I standardized the whole codebase on the **classic**
    convention (`AuthService`, `LoginComponent`, `auth.guard.ts`, …) — including
-   renaming the generated root to `AppComponent` — to match the roadmap's
+   renaming the generated root to `AppComponent` — to match the brief's
    vocabulary and what a live interviewer expects. One consistent style, not a mix.
 
 6. **CDK exercised from Task 1.** UI approach is "Angular CDK + plain CSS." So the
